@@ -1,0 +1,60 @@
+﻿@using Assembly.Database;
+
+@{
+    var PesCampo = ViewData["PesCampo"] as List<SQLDTOSPesquisa> ?? new List<SQLDTOSPesquisa>();
+    var btn1Name = ViewData["btn1Name"]?.ToString() ?? "Pesquisar";
+    var btn2Name = ViewData["btn2Name"]?.ToString() ?? "Limpar";
+    var rotaLista = ViewData["rotaLista"]?.ToString() ?? "";
+    var PaginaAtual = (int)(ViewData["PaginaAtual"] ?? 1);
+    var NumTotaldePag = (int)(ViewData["NumTotaldePag"] ?? 1);
+}
+   
+   <div class="form-group row mx-0 my-0 px-0 py-0">
+        <!-- filtro da pesquisa-->
+        <div class="row col-sm-4 px-1 py-1">
+            <div class="col-sm-3 py-1">
+                <select name="TipoFiltro" class="form-control">
+                    @for( int i = 0; i < @PesCampo.Count; i++)
+                    {
+                        <option value="@i"> @PesCampo[i].descPesquisa</option>
+                    }
+                </select>
+             </div>
+            <div class="col-sm-4 py-1">
+                    <input type="text" placeholder="Filtro" name="DadosFiltroPesquisa" class="form-control" />
+            </div>
+            <div class="col-sm-3 py-1">
+                    <button type="submit" name="btn9PesquisarFiltro" value="filtrar" class="btn btn-primary mb-2  mx-sm-3">@btn1Name</button>
+            </div>
+            <div class="col-sm-2 py-1">
+                <button type="submit" name="btn9LimparFiltro" value="limpar" class="btn btn-primary mb-2  mx-sm-3">@btn2Name</button>
+            </div>
+        </div>
+
+        <!-- controle de pagina-->
+        <div class="col-sm-8 py-1 justify-content-end" id="SeletorPaginas">
+            <nav aria-label="Navegação" class="py-1">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item ">
+                        <a class="page-link" href="@rotaLista?PaginaAtual=1" tabindex="-1">Primeira</a>
+                    </li>
+                    @{
+                        string estilo = "";
+                    }
+                    @for (int i = 1; i <= NumTotaldePag; i++)
+                    {
+                        if (PaginaAtual == i)
+                        { estilo = "active";
+                        }else { estilo = ""; }
+                        <li class="page-item @estilo">
+                            <a class="page-link" href="@rotaLista?PaginaAtual=@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="@rotaLista?PaginaAtual=@NumTotaldePag">Ultima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+   

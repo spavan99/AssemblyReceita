@@ -1,0 +1,73 @@
+﻿@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Http;
+
+<!--  *****  LAYOUT DAS PAGINA INICIAL ***** -->
+@{
+    //string ncor = "background-color: rgba(51,178,255,0.5);";
+    string ncor = "background-color: white;";
+}
+
+<!DOCTYPE html>
+<html lang="pt_br">
+
+
+<head>
+    <!-- carregar configuraçoes -->
+    <partial name ="Receita/Site/_HeadConfig" />
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="container-fluid" style="@ncor; margin: 0; padding: 0">
+           <partial name ="Receita/Site/MenuPrincipal" />
+
+            <!-- carregar banner rotativo das paginas-->
+           <partial name ="Receita/Site/BannerPrincipal" />
+           
+
+        </div>
+        <!-- menu top-->
+    </header>
+
+    <main role="main">
+        <!--  centro da pagina  index pagina principal -->
+        @RenderBody()
+    
+    </main>
+
+    <!-- ******** rodape ********* -->
+    <footer class="container-fluid border-top text-muted p-0 m-0">
+
+        <div class="container-fluid" style="margin: 0; padding: 0px 15px 0px 15px; ">
+
+            <partial name="Receita/Site/FooterPrincipal" />
+
+        </div>
+
+    </footer>
+
+    <!-- configuracoes script-->
+    <partial name="Receita/Site/_FooterJava" />
+ 
+
+    @await RenderSectionAsync("Scripts", required:false)
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Receita.ReceitaCadastrarModel
+@{
+    var mensagem = TempData["My9Mensagem"] as string;
+    var erro = TempData["My9Erro"] as string;
+}
+
+<!-- titulos
+<partial name="Receita/Adm/CabecalhoADM" />  -->
+@Html.Raw(Model.CabecalhoTitulo)
+
+<div class="container">
+    <form class="mb-2 py-2 form-group Cadastro-Dados-Formn borda-principal" id="formulario-cadastro-geral" method="POST"
+          asp-page-handler="CadastraFormulario" asp-route-TipoFiltro="1">
+
+        @await Html.PartialAsync("Shared/CRUDPadCAD", new {
+        nrColunasCad = Model.nrColunasCad,
+        DadosViewModel = Model.DadosViewModel,
+        acaoBTN = Model.acaoBTN,
+        descricaoBTN = Model.descricaoBTN,
+        voltaBTN = "Volta",
+        novoCadastro = Model.novoCadastro })
+
+    </form>
+
+</div>
+
+
+
+<!-- Modal correspondente para -->
+<!-- Modal -->
+<div class="modal fade" id="seuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+

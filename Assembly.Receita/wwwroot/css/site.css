@@ -1,0 +1,350 @@
+
+:root {
+    --my-tamanho-letra-padrao: 14px;
+    --my-tipo-letra-padrao: Arial, Helvetica, sans-serif;
+    --my-tam-celular: 600px;
+    --my-tam-tablet: 900px;
+    --my-tam-desktop: 1020px;
+    /* corres padroes */
+    --my-cor-site-tela-1: rgba(1, 178, 255, 0.5);
+    --my-cor-cadastro-titulo: rgb(32, 35, 233, 1);
+    --my-cor-cadastro-sombra: rgba(2, 6, 66, 0.55);
+    --my-cor-cadastro-sombra-2: rgba(2, 6, 66, 0.8);
+    /*
+  --my-cor-listagem-titulo: rgba(51,178,255,0.5);
+  */
+    --my-cor-listagem-titulo: rgb(70, 196, 228, 1);
+    --my-cor-listagem-sombra: rgba(2, 6, 66, 0.55);
+    --my-cor-cadastro-dados: rgba(51, 178, 255, 0.3);
+    --my-cor-site-1: red;
+    --my-titulo1-cor: rgba( 255, 255, 255, 1);
+    --my-titulo1-txt-tam: 2rem;
+    /* corres da area de servico */
+    --my-servico-abertura-cor: rgba(0, 0, 0, 1);
+
+    /*xores*/
+    --my-cor-recdertalhe-titulo: rga(237, 233, 233, 0.7);
+}
+
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.borda-principal {
+    border: 1px solid black;
+}
+
+.Listagem-Titulo {
+    background-color: var( --my-cor-listagem-titulo);
+    align-content: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    color: white;
+    width: 100%;
+}
+
+
+.estilo-item-receita {
+    background-color: var( --my-cor-listagem-titulo);
+    width: 100%;
+}
+
+.texto-item-receita {
+    color: red;
+    font-weight: 600;
+    text-align: right;
+    padding: 5px;
+}
+
+.rec-detalhe-titulo {
+    background-color: var( --my-cor-recdertalhe-titulo);
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+}
+
+.txt-detalhe-titulo {
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+}
+
+/*
+.rec-detalhe-foto {
+    background-color: white;
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+    height: 350px;
+    padding: 0;
+}
+*/
+
+.rec-foto-detalhe {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    height : 200px;
+
+}
+
+
+#autor-receita{
+    font-size: 14px;
+    font-weight: 900;
+    color: black;
+    text-align :right;
+    padding-right: 30px;   
+}
+
+.rec-detalhe-classificacao {
+    background-color: var( --my-cor-recdertalhe-titulo);
+}
+
+
+.rec-detalhe-ingredientes {
+    background-color: var( --my-cor-recdertalhe-titulo);
+    padding: 10px;
+}
+
+#Titulo-Modo-Preparo{
+    font-weight: 900;
+    padding-top : 15px;
+    color: blue;
+    text-align: left;
+}
+
+#Tituto-Ingredientes {
+    text-align: center;
+    padding: 15px;
+    color: blue;
+    font-weight: 900;
+}
+
+.circulo_branco {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.circulo_dificuldade {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.estrelas {
+    display: inline-block;
+}
+
+.estrela {
+    width: 15px; /* Largura de cada estrela */
+    height: 15px; /* Altura de cada estrela */
+    margin-right: 5px; /* Espaçamento entre as estrelas */
+    display: inline-block;
+}
+.vazia {
+      background-color: #ccc; /* Cor das estrelas vazias */
+}
+.voto {
+    background-color: #FFD700; /* Cor das estrelas preenchidas */
+}
+
+.circulo {
+    border-radius: 50%; 
+    padding: 10px; 
+}
+
+.receita-preparo{
+
+}
+
+.receita-comentarios{
+    margin-top: 30px;
+}
+
+#Titulo-Comentarios {
+    text-align: right;
+    color: blue;
+    font-weight: bold;
+}
+
+.alfa{
+
+    color: red;
+    font-weight: 900;
+}
+
+/**************************************
+css formulario padrao
+
+*/
+
+.Cadastro-Dados-Formn {
+    margin-top: 15px;
+    margin-bottom:25px;
+    background-color: var( --my-cor-cadastro-dados);
+    font-weight: bold;
+    color: black;
+    border-top-right-radius: 15px;
+    width: 100%;
+    box-shadow: 15px 12px 14px var( --my-cor-cadastro-sombra-2);
+}
+
+.css-form-label{
+
+}
+
+.css-form-input {
+    /*background-color: rgb(240, 248, 255);*/
+
+}
+
+.css-form-select{
+
+}
+
+.css-form-option{
+
+}
+
+.pesquisa-grid {
+    width: 100%;
+}
+
+.pesquisa-grid-form {
+    /*background-color: aquamarine;*/
+    background-color: rgba(183, 231, 170, 0.8);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /*background-color: var( --my-cor-cadastro-dados);*/
+    font-weight: bold;
+    color: black;
+    width: 100%;
+    /*box-shadow: 15px 12px 14px var( --my-cor-cadastro-sombra-2);*/
+}
+
+
+
+/* TABELA ESPECIFICAS GRID
+        -------------------------------------------------- */
+
+div.tab {
+    display: flex;
+    overflow: auto;
+    /*             position:sticky;
+                justify-content: center;
+ */
+}
+
+#minhaTabela {
+    width: 97%;
+    margin: 0 auto;
+    margin-top: 15px;
+    border: 0;
+    box-shadow: 0 5px 30px darkgrey;
+    border-spacing: 0;
+    /*                border-radius: 0.5em; */
+}
+
+    #minhaTabela thead th {
+        font-weight: bold;
+        background-color: rgba(0, 0, 51, 1);
+        /*                background-color: rgba(51,178,255,1); */
+        color: white;
+        padding: 5px 10px;
+        border-radius: 0.4em;
+    }
+
+    #minhaTabela tr td {
+        padding: 5px 10px;
+        /*                text-align: center; */
+        text-align: left;
+        cursor: pointer;
+        /**importante para nÃ£o mostrar cursor de texto**/
+        border-radius: 0.5em;
+    }
+
+        #minhaTabela tr td:last-child {
+            /*text-align: right;*/
+            text-align: left;
+        }
+
+    /**Cores**/
+
+    #minhaTabela tr:nth-child(odd) {
+        background-color: #eee;
+    }
+
+
+    /**Cor quando passar por cima**/
+
+    #minhaTabela tr:hover td {
+        background-color: #feffb7;
+    }
+
+
+    /**Cor quando selecionado**/
+
+    #minhaTabela tr.selecionado td {
+        background-color: #aff7ff;
+    }
+
+    
+/**css da janela modal para mensagem com o usuario**/
+
+.My9modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.My9modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.My9close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.My9close:hover,
+.My9close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

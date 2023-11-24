@@ -1,0 +1,282 @@
+﻿@page 
+@model Assembly.Receita.Pages.Receita.Site.ReceitaDetalheSiteModel
+@{
+    var teste = Model.fotoreceita;
+
+}
+
+
+<div class="contanir-fluid px-0 mx-0" style="margin:auto; padding: 0">
+
+
+    <div class="rec-detalhe-titulo">
+        <h2 class="txt-detalhe-titulo">@Model.Titulo</h2>
+        <h5 class="txt-detalhe-titulo">@Model.Descricao</h5>
+    </div>
+
+    
+    <div class="row container-fluid" style="margin: 0px">
+
+         <div class="col-sm-4">
+            <!--classificacao da receitra-->
+            <div class="rec-detalhe-classificacao">
+
+                <table class="table table-striped table-hover" id="Tabela-classificacao">
+                    <!--   sem cabecaçho
+                    <thead>
+                        <tr>
+                            <th scope="col">Iten</th>
+                            <th scope="col">qtde</th>
+                            <th scope="col">mostra</th>
+                        </tr>
+                    </thead>
+                    -->
+                    <tbody>
+                        @for (int n = 0; n < Model.classReceita.Count; n++)
+                        {
+                            <tr>
+                                <td>@Model.classReceita[n].item </td>
+                                @if (@Model.classReceita[n].mostra == 1)
+                                {
+                                    <td>
+                                        <div class="estrelas">
+
+                                            @for (int j = 1; j <= @Model.classReceita[n].loop; j++)
+                                            {
+
+                                                @if (int.Parse(@Model.classReceita[n].qtde) >= j)
+                                                {
+                                                    <div class="estrela circulo voto "></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="estrela circulo vazia "></div>
+                                                }
+                                            }
+
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@Model.classReceita[n].qtde</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+
+
+         </div>
+
+         <div class="col-sm-8  mx-0 my-0" >
+               <div class="rec-detalhe-foto">
+
+                   <p>@teste</p>
+                    @if(Model.fotoReceita is not null)
+                    {
+                        <img src="~/receitasfotos/@Model.fotoReceita" class="rec-foto-detalhe" alt="foto receita">
+                    }
+                    else
+                    {
+                       <img src="~/receitasfotos/receita02.jpeg"  class="rec-foto-detalhe" alt="foto receita">
+                    }
+                    <p id="autor-receita">  Receita: @Model.Id</p>
+        
+              </div>
+        </div>
+
+   </div>
+
+
+
+
+    <div class="row container-fluid" style="margin-top: 30px">
+
+        <!-- area da esquerda -->
+        <div class="col-sm-5" >
+                
+            <!--tabela de ingredientes-->                
+            <div class="rec-detalhe-ingredientes">
+                <h3 id="Tituto-Ingredientes">Ingredientes </h3>
+                <hr>
+                <table class="table table-striped table-hover" id="Tabela-ingredientes">
+                    <thead>
+                        <tr>
+                            <th scope="col">Itens</th>
+                            <th scope="col">Ingredientes</th>
+                            <th scope="col">Quantidade</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <p>Total de Ingredientes: @Model.itensVitrine.Count</p>
+                        @for (int n = 0; n < Model.itensVitrine.Count; n++)
+                        {
+                            <tr>
+                                <td>@(n+1)</td>
+                                <td>@Model.itensVitrine[n].Ingredientes</td>
+                                <td>@Model.itensVitrine[n].QtdeIngredientes</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+         </div>
+
+        <!--direita -->
+        <div class="col-sm-7" >
+        
+            <div class="receita-preparo">
+                <h1 id="Titulo-Modo-Preparo"> Modo de Preparo</h1>
+                <hr>
+            
+                <p>@Model.Preparo</p>
+            </div>
+
+             <div class="receita-comentarios">
+
+                <div class="row my-2">
+
+                    <div class="col-sm-3">
+                        <button type="button" class="btn-sm btn-outline-primary " data-bs-toggle="modal" data-bs-target="#myComentario">
+                            Comente a Receita
+                        </button>
+                    </div>
+                    <div class="col-sm-9">
+                        <h4 id="Titulo-Comentarios"> Comentarios sobre a Receita</h4>
+                    </div>
+                    <hr />
+                </div>
+                 
+                <div>
+
+                    <table class="table table-striped table-hover" id="Tabela-comentarios">
+                        <!--   sem cabecaçho
+                        <thead>
+                            <tr>
+                                <th scope="col">Iten</th>
+                                <th scope="col">qtde</th>
+                                <th scope="col">mostra</th>
+                            </tr>
+                        </thead>
+                        -->
+                        <tbody>
+                            @if (@Model.comentariosRec is not null )
+                            {
+                                @for (int n = 0; n < Model.comentariosRec.Count; n++)
+                                {
+                                    <tr>
+                                        <td>@Model.comentariosRec[n].Comentario </td>
+                                        <td>
+                                            <div class="estrelas">
+                                                @for (int j = 1; j <= 5; j++)
+                                                {
+                                                    @if (@Model.comentariosRec[n].Avaliacao >= j)
+                                                    {
+                                                        <div class="estrela circulo voto "></div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="estrela circulo vazia "></div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+                <div class="btn-group botao-tamanho my-2">
+
+                    <!--         
+                    <a data-toggle="modal" href="#myModal" class="btn btn-primary">Abrir.....</a>
+                    -->
+             
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#myComentario">
+                        Faça seu comentário sobre esta Receita.
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade mx-2" id="myComentario" name="myComentario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+       
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Faça seu Comentario</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <form method="post" asp-page-handler="GravarDadosComentario" asp-route-ChaveReceita=@Model.Id>
+                    <div class="form-group">
+                        <label for="tcomentario">Comente sobre a Receita              (id: @Model.Id)</label>
+                        <input type="text" class="form-control" id="tcomentario" name="ComentarioReceita" aria-describedby="emailHelp" placeholder="Faça seu comentario">
+                    </div>
+                    <div class="form-group">
+                         <label for="estrela">Selecione o Numero de Estrelas para Receita</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RadioClassificacao" id="inlineRadio1" value="OK1">
+                            <label class="form-check-label" for="inlineRadio1">1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RadioClassificacao" id="inlineRadio2" value="OK2">
+                            <label class="form-check-label" for="inlineRadio2">2</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RadioClassificacao" id="inlineRadio3" value="OK3">
+                            <label class="form-check-label" for="inlineRadio3">3 </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RadioClassificacao" id="inlineRadio4" value="OK4">
+                            <label class="form-check-label" for="inlineRadio3">4 </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RadioClassificacao" id="inlineRadio5" value="OK5">
+                            <label class="form-check-label" for="inlineRadio3">5 </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="estrela">OBS: seu comentario somente será publicado ápos aprovação</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar comentário</button>
+                    </div>
+
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+</div>

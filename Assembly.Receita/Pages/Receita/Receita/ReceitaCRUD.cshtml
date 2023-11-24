@@ -1,0 +1,108 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Receita.ReceitaCRUDModel
+@using Assembly.Database;
+@using Assembly.Service;
+
+@{
+    Layout = "_LayoutADM";
+    ViewData["Title"] = "Assembly Receita - Dificuldade";
+    //**************************************************************************  controle paginacao/
+    //int FiltroPorPag = Int32.Parse(ViewData["itensPorPagina"].ToString());
+    //int PaginaAtual =  Int32.Parse(ViewData["PaginaAtual"].ToString());
+    //int NumItensPorPag = (Model.Count()<FiltroPorPag ? Model.Count() : FiltroPorPag);
+    //int NumTotalDePag = ( NumItensPorPag > 0 ? ( Model.Count()/NumItensPorPag  + (Model.Count()%NumItensPorPag==0 ? 0 : 1)) : 1 );
+    //***************************************************************************************************/
+    int FiltroPorPag = 1000;  //Int32.Parse(ViewData["itensPorPagina"].ToString());
+    int PaginaAtual = 1;    // Int32.Parse(ViewData["PaginaAtual"].ToString());
+    int NumItensPorPag = (Model.dadosFiltro.Count < FiltroPorPag ? Model.dadosFiltro.Count : FiltroPorPag);
+    int NumTotalDePag = (NumItensPorPag > 0 ? (Model.dadosFiltro.Count / NumItensPorPag + (Model.dadosFiltro.Count % NumItensPorPag == 0 ? 0 : 1)) : 1);
+
+    var mensagem = TempData["My9Mensagem"] as string;
+}
+<!-- titulos
+<partial name="Receita/Adm/CabecalhoADM" />  -->
+@Html.Raw(Model.CabecalhoTitulo)
+
+<div class="container-fluid mx-0 px-0">
+
+    <!-- campos mensagens de alerta(verde) e erro (vermelho)-->
+    @if (!string.IsNullOrEmpty(mensagem))
+    {
+        <div id="My9modalMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" id="My9modalButtom" class="close" data-dismiss="alert"
+                aria-label="Close" style="padding: 0; background: none; border: none;">
+                <span aria-hidden="true">
+                    <img src="/icones/fechar.jpeg" style="width: 25px; height: 25px;" alt="Fechar">
+                </span>
+            </button>
+            @mensagem
+        </div>
+    }
+
+    <!-- ***************************************** formulario de pesquisa ********************************************** -->
+    <div class="container-fluid row col-md-12 mx-0 my-0 px-0 py-0 borda-principal pesquisa-gri">
+
+        <form class="pesquisa-grid-form mx-0 my-0 px-0 py-0" method="POST" asp-page-handler="PesquisaPadrao" asp-route-TipoFiltro=@Model.TipoFiltro>
+            @await Html.PartialAsync("Shared/PesquisaPadCAD", new {
+            PesCampo = Model.PesCampo,
+            btn1Name = "Pesquisar",
+            btn2Name = "Limpar",
+            rotaLista= Model.rotaLista,
+            PaginaAtual="1",
+            NumTotaldePag="1"})
+        </form>
+    </div>
+
+    <!--  ****************************** tabela de dados  *****************************************************  -->
+    @await Html.PartialAsync("Shared/TabelaPadCAD", new {
+    dadosFiltro = @Model.dadosFiltro,
+    rotaCRUD = Model.rotaCRUD,
+    listCamposTAB = Model.listCamposTAB,
+    descricaoCamposTAB = Model.descricaoCamposTAB,
+    btn1Name = "Novo",
+    NumItensPorPag = "1000",
+    PaginaAtual = "1" })
+
+</div>
+
+
+
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+    <div class="toast-header">
+        <img src="..." class="rounded mr-2" alt="...">
+        <strong class="mr-auto">Mensagem</strong>
+        <small class="text-muted">11 mins ago</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        @mensagem.
+    </div>
+</div>
+
+<script type="module">
+
+    //scrip fechar as mensagens // pensar montar um geral e especificos
+    $(document).ready(function () {
+
+        // Fechar a janela modal quando o usuário clica no botão "X"
+        $(".close").on("click", function () {
+            $(this).parent().hide();
+            //  $(".toast").show();
+
+        });
+
+        // Fechar a janela modal se o usuário clicar fora dela
+        $(document).on("click", function (event) {
+            console.log("click interno");
+            if (event.target.classList.contains("alert")) {
+                $(event.target).hide();
+            }
+        });
+    });
+
+</script>
+
+
+

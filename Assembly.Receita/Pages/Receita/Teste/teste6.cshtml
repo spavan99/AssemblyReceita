@@ -1,0 +1,68 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Teste.teste6Model
+@using System.ComponentModel;
+@using System.ComponentModel.DataAnnotations;
+
+@{
+}
+
+<form method="post">
+    <div>
+        @foreach (var property in Model.DadosViewModel._properties)
+        {
+
+            //var displayName = "teste";
+            //bool isRequired = true;
+            //bool isReadOnly = false;
+            //bool isHidden = false;
+
+
+            var displayName = Model.DadosViewModel.GetDisplayAttribute(property);
+            var isRequired = Model.DadosViewModel.GetRequiredAttribute(property);
+            //var isReadOnly = Model.DadosViewModel.GetReadOnlyAttribute(property);
+            var isReadOnly = Model.DadosViewModel.GetHtmlReadOnAttribute(property);
+            var isHidden = Model.DadosViewModel.GetHiddenInputAttribute(property);
+
+ 
+            <div>
+                @if (!isHidden)
+                {
+                    <label asp-for="@property.Name">@displayName</label>
+                    if (isReadOnly)
+                    {
+                        <input asp-for="@property.Name" readonly />
+                    }
+                    else
+                    {
+                        <input asp-for="@property.Name" />
+                    }
+                    @if (isRequired)
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                }
+
+                @if (isHidden)
+                {
+                    <input asp-for="@property.Name" type="hidden" />
+                }
+
+                <!-- // enum monta seleçao lado -->
+                @if (property.PropertyType.IsEnum)
+                {
+                    var enumNames = Enum.GetNames(property.PropertyType);
+                    var enumValues = Enum.GetValues(property.PropertyType);
+                    <select asp-for="@property.Name">
+                        @for (var i = 0; i < enumNames.Length; i++)
+                        {
+                            <option value="@enumValues.GetValue(i)">@enumNames[i]</option>
+                        }
+                    </select>
+                }
+
+            </div>
+        }
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>

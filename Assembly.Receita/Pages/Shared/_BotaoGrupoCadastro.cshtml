@@ -1,0 +1,19 @@
+﻿
+@model Tuple<string, string, string, string>
+
+@if( Model.Item3 is null)
+{
+       <button type="submit" id="@Model.Item1" name="@Model.Item1" value="VOLTAR" class="btn btn-primary">@Model.Item1</button>
+}else{
+        <button type="submit" id="@Model.Item1" name="@Model.Item1" value="VOLTAR" class="btn btn-primary">@Model.Item1</button>
+}
+
+@if (Model.Item4 is null)
+{
+    <button type="submit" id="@Model.Item2" name="@Model.Item2" value="@Model.Item2" class="btn btn-success">@Model.Item2</button>
+}else{
+    <button type="submit" id="@Model.Item2" name="@Model.Item2" value="@Model.Item2" class="btn btn-success">@Model.Item2</button>
+}
+
+
+

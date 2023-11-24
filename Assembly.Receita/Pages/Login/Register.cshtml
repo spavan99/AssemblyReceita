@@ -1,0 +1,75 @@
+﻿@page
+@model Assembly.Receita.Pages.Login.RegisterModel
+@{
+    var mensagem = TempData["My9Mensagem"] as string;
+}
+
+
+<form method="post">
+    <!-- campos mensagens de alerta(verde) e erro (vermelho)-->
+    @if (!string.IsNullOrEmpty(mensagem))
+    {
+            <div id="My9modalMessage" class="alert alert-danger alert-dismissible fade show mx-0 px-0 my-0 py-0" role="alert">
+                <button type="button" id="My9modalButtom" class="close" data-dismiss="alert"
+                aria-label="Close" style="padding: 0; background: none; border: none;">
+                    <span aria-hidden="true">
+                        <img src="/icones/fechar.jpeg" style="width: 25px; height: 25px;" alt="Fechar">
+                    </span>
+                </button>
+            @mensagem
+            </div>
+    }
+    <section class="vh-80" style="background-color: #508bfc;">
+        <div class="container py-3 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-6 col-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+
+                            <h3 class="mb-3">Register ao Site</h3>
+
+                            <div class="row">
+                                <div class=" col-md-6 form-outline mb-1">
+                                    <input type="text" id="name" name="name" class="form-control form-control-lg" required />
+                                    <label for="name" class="form-label">Nome Usuario</label>
+                                </div>
+
+                                <div class="col-md-6 form-outline mb-1">
+                                    <input type="text" id="sobrenome" name="sobrenome" class="form-control form-control-lg" required />
+                                    <label for="sobrenome" class="form-label">Sobre Nome </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6 form-outline mb-1">
+                                    <input type="text" id="username" name="username" class="form-control form-control-lg" required />
+                                    <label for="username" class="form-label">User Name</label>
+                                </div>
+
+                                <div class="col-md-6 form-outline mb-1">
+                                    <input type="email" id="email" name="email" class="form-control form-control-lg" required />
+                                    <label for="email" class="form-label">Email </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6 form-outline mb-1">
+                                    <input type="password" id="senha" name="senha" class="form-control form-control-lg" required />
+                                    <label for="senha" class="form-label">Password</label>
+                                </div>
+
+                                <div class="col-md-6 form-outline mb-1">
+                                    <input type="password" id="senhaok" name="senhaok" class="form-control form-control-lg" required />
+                                    <label for="senhaok" class="form-label">Confirme Password </label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

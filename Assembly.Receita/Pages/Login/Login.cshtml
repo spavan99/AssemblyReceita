@@ -1,0 +1,36 @@
+﻿@page
+@model Assembly.Receita.Pages.Login.LoginModel
+@{
+
+}
+
+<form method="post">
+
+    <section class="vh-80" style="background-color: #508bfc;">
+         <div class="container py-3 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-6 col-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+
+                            <h3 class="mb-5">Login ao Site</h3>
+
+                            <div class="form-outline mb-2">
+                                <input type="text" id="username" name="username" class="form-control form-control-lg" />
+                                <label for="username" class="form-label" >User Name</label>
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <input type="password" id="senha" name="senha" class="form-control form-control-lg" />
+                                <label for="senha" class="form-label" >Password</label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

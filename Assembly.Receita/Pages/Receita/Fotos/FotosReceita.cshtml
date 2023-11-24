@@ -1,0 +1,29 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Fotos.FotosReceitaModel
+@{
+    //ViewData["Title"] = "Image Uploader";
+}
+
+<!-- titulos
+<partial name="Receita/Adm/CabecalhoADM" />  -->
+@Html.Raw(Model.CabecalhoTitulo)
+
+<div class="container-fluid mx-1 px-1 py-1 my-1 text-center">
+    <h1> Envido foto para a Receita Nr: @Model.receitaAtiva  </h1>
+</div>
+
+<div class="container-fluid mx-2 px-2 py-2 my-2 text-center">
+    <form id="frmImageUploader" method="post" enctype="multipart/form-data">
+
+        <div class="row col-sm-12 mx-0 px-0 ">
+            <div class="col-sm-8 mx-0 px-0 mx-auto">
+                <label>Selecione a Imagem da Receita</label><br/>
+                <input id="fileImage" type="file" asp-for="ImageFile" class="form-control" /><br />
+                <input id="btnSubmit" type="submit" value="Enviar" class="btn btn-success" />
+            </div>
+@*            <div class="col-sm-3 mx-0 px-0">
+                <input id="btnSubmit" type="submit" value="Enviar" class="btn btn-primary" />
+            </div>
+*@        </div>
+    </form>
+</div>

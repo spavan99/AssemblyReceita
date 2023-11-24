@@ -1,0 +1,118 @@
+﻿@page
+@model IndexModel
+@{
+   
+    ViewData["Title"] = "Assembly Receita";
+    int numeroItensVitrine = 4;   // de 1 a 4
+    string configcolunas = "col-sm-12";
+    string configalturafoto = "height: 400px";
+
+    if (numeroItensVitrine == 2)
+    {
+        configcolunas = "col-sm-6";
+        configalturafoto = "height: 350px";
+    }
+    else if (numeroItensVitrine == 3)
+    {
+        configcolunas = "col-sm-4";
+        configalturafoto = "height: 300px";
+    }
+    else if (numeroItensVitrine == 4)  // rever logica subrtrai rever
+    {
+        configcolunas = "col-sm-3";
+        configalturafoto = "height: 300px";
+    }
+    string fotopad = "receita01.jpeg";
+
+    string corBtn = "";
+}
+
+<div class="contanir-fluid px-0 mx-0" style="margin:auto; padding: 0">
+
+    @if (Model.lstVitrine.Count > 0)
+    {
+        @for (int n = 0; n < Model.lstVitrine.Count; n++)
+        {
+            <div class="row container-fluid mx-2 my-2" style=" margin: 20px 0px 15px 0px;">
+
+                @for (int c = 0; c < numeroItensVitrine; c++)
+                {
+                    @if(n < Model.lstVitrine.Count)
+                    {
+                        <div class=@configcolunas>
+                            <div class="card">
+
+                                @if (Model.lstVitrine[n].fotoreceita is not null)
+                                {
+                                    @if(Model.lstVitrine[n].fotoreceita.Length < 5)
+                                    { fotopad = "receita02.jpeg";
+                                    }else
+                                    { fotopad = Model.lstVitrine[n].fotoreceita; }
+                                }else
+                                { fotopad = "receita01.jpeg"; }
+
+                                <a asp-area="" asp-page="/Receita/Site/ReceitaDetalheSite" asp-route-Id=@Model.lstVitrine[n].Id
+                                   asp-route-Titulo=@Model.lstVitrine[n].Titulo asp-route-Descricao=@Model.lstVitrine[n].Descricao
+                                   asp-route-Preparo=@Model.lstVitrine[n].Preparo asp-route-Tempo=@Model.lstVitrine[n].Tempo
+                                   asp-route-TipoPrato=@Model.lstVitrine[n].TipoPrato asp-route-IdCategoria=@Model.lstVitrine[n].IdCategoria
+                                   asp-route-IdDificuldade=@Model.lstVitrine[n].IdDificuldade asp-route-ServePessoas=@Model.lstVitrine[n].ServePessoas
+                                   asp-route-fotoreceita=@Model.lstVitrine[n].fotoreceita>
+                                    <img src="~/receitasfotos/@fotopad" class="card-img-top" style="@configalturafoto; width: 100%" alt="foto receita">
+                                </a>
+                                <div class="card-body">
+                                    <h2 class="card-title">@Model.lstVitrine[n].Titulo </h2>
+                                    <p class="card-text">@Model.lstVitrine[n].Descricao</p>
+
+                                    <div class="estilo-item-receita">
+                                        <!--estilzar-->
+                                        <p class="texto-item-receita">Tempo preparo @Model.lstVitrine[n].Tempo</p>
+                                        <p class="texto-item-receita">Dificuldade @Model.lstVitrine[n].IdDificuldade</p>
+                                    
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+
+                                          <a asp-area="" asp-page="/Receita/Site/ReceitaDetalheSite" asp-route-Id=@Model.lstVitrine[n].Id
+                                           asp-route-Titulo=@Model.lstVitrine[n].Titulo asp-route-Descricao=@Model.lstVitrine[n].Descricao
+                                           asp-route-Preparo=@Model.lstVitrine[n].Preparo asp-route-Tempo=@Model.lstVitrine[n].Tempo
+                                           asp-route-TipoPrato=@Model.lstVitrine[n].TipoPrato asp-route-IdCategoria=@Model.lstVitrine[n].IdCategoria
+                                           asp-route-IdDificuldade=@Model.lstVitrine[n].IdDificuldade asp-route-ServePessoas=@Model.lstVitrine[n].ServePessoas
+                                           asp-route-fotoreceita=@Model.lstVitrine[n].fotoreceita>
+                                                <button type="button" class="btn btn-primary btn-lg btn-detalhe-receita ">Aprenda Agora !!!</button>
+                                          </a>
+ 
+                                       </div>
+                                         
+ @*                                       @if (Model.lstVitrine[n].favorito == 0)
+                                        {
+                                            corBtn = "btn-success";
+                                        }
+                                        else
+                                        {
+                                            corBtn = "btn-danger";
+                                        }
+
+                                       <div class="col-md-4">
+                                            <a aps-are="" asp-page="/Receita/Site/Favorito" asp-rout-Id="@Model.lstVitrine[n].Id">
+                                                <button type="button" class="btn @corBtn btn-lg btn-detalhe-receita ">Favorito</button>
+                                            </a>
+                                        </div>
+ *@                                   
+                                    </div>
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    n++;
+                }
+            </div>
+            n--;
+        }
+    }
+ 
+</div>
+
+

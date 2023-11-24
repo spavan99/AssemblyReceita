@@ -1,0 +1,292 @@
+﻿@using Assembly.Database;
+@using Assembly.Service;
+
+@{
+    var nrColunasCad = (int)(ViewData["nrColunasCad"] ?? 1);
+    var DadosViewModel = ViewData["DadosViewModel"] as ReflectionModel;
+    var loopDados = DadosViewModel._properties;
+    var acaoBTN = ViewData["acaoBTN"]?.ToString() ?? "";
+    var descricaoBTN = ViewData["descricaoBTN"]?.ToString() ?? "";
+    var voltaBTN = ViewData["voltaBTN"]?.ToString() ?? "Volta";
+    var novoCadastro = ViewData["novoCadastro"] as dynamic;
+
+    string tamColuna = "col-sm-12";
+    if (nrColunasCad == 2)
+    { tamColuna = "col-sm-6";
+    }else if (nrColunasCad == 3)
+    { tamColuna = "col-sm-4"; }
+
+    string configText = "text";
+
+    var selIdCategoia = ViewData["selIdCategoria"];
+
+}
+
+<fieldset cadastro>
+
+    @for (int i = 0; i < loopDados.Length; i++)
+    {
+        <div class="form-group row mx-1 px-1">
+            @for (int n = 0; n < nrColunasCad; n++)
+            {
+                @if (i < loopDados.Length)
+                {
+                    var displayName = @DadosViewModel.GetDisplayAttribute(loopDados[i]);
+                    var isRequired = @DadosViewModel.GetRequiredAttribute(loopDados[i]);
+                    var isReadOnly = @DadosViewModel.GetReadOnlyAttribute(loopDados[i]);
+                    var isSelBotoao = @DadosViewModel.GetHtmlBotaoSel(loopDados[i]);           // botao adiconal sel
+                    var isTypeImput = @DadosViewModel.GetDataType(loopDados[i]);               // input txt / senha / fone / email
+                    <!-- se for cancelamento e viwe todos campos somente readonly -->
+                    bool isHtmlRead;
+                    @if( isTypeImput is not null)     // OBTEM O TIPO CAMPOS PARA MASCARA
+                    {    configText = isTypeImput.ToLower();
+                         // DE PARA
+                         if (configText.Equals("emailaddress")) configText = "email";
+
+                    }else
+                    { configText = "text";}
+
+                    @if (@acaoBTN.Equals("DELETE") || @acaoBTN.Equals("VIEW"))
+                    { isHtmlRead = true;
+                    }else
+                    { isHtmlRead = @DadosViewModel.GetHtmlReadOnAttribute(loopDados[i]); }
+
+                    var isHidden = @DadosViewModel.GetHiddenInputAttribute(loopDados[i]);
+                    if(isHidden)
+                    {
+                        <!-- campo hidem-->
+                        <input asp-for="@loopDados[i].Name" style="display: none;" type="text" />
+                    }
+                    else
+                    {
+                        <div class="@tamColuna mx-0 px-1">
+
+                            @if (!isHidden)  // nao hidden
+                            {
+                                <label for="@loopDados[i].Name" class="for-label css-form-label"
+                                    asp-for="@loopDados[i].Name">
+                                    @displayName
+                                    @if (isRequired)
+                                    {
+                                        <span class="text-danger">*</span>
+                                    }
+                                </label>
+
+                                if (isReadOnly || isHtmlRead)  // somente leitura
+                                {
+                                    @if (loopDados[i].PropertyType.IsEnum)
+                                    {
+                                        <div class="row col-sm-12 mx-0 px-0 ">
+                                            <div class="col-sm-8 mx-0 px-0">
+                                                <input type="@configText" class="form-control css-form-input" id="input-@loopDados[i].Name"
+                                                 name="@loopDados[i].Name" asp-for="@loopDados[i].Name"
+                                                 value="@novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null)"
+                                                 readonly />
+
+                                            </div>
+
+                                            @{
+                                                var enumNames = Enum.GetNames(loopDados[i].PropertyType);
+                                                var enumValues = Enum.GetValues(loopDados[i].PropertyType);
+                                                var SelectedValue = @novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null);
+
+                                                <select asp-for="@loopDados[i].Name" class="col-sm-4 mx-0 px-1 css-form-select" data-field-id="@loopDados[i].Name">
+                                                    @for (var a = 0; a < enumNames.Length; a++)
+                                                    {
+                                                        var optionValue = @enumValues.GetValue(a);
+                                                        var isSelected = (optionValue.Equals(@SelectedValue) ? "selected" : "");
+                                                        <option value="@optionValue" class="css-form-option" selected="@isSelected" disabled>@enumNames[a]</option>
+                                                    }
+                                                </select>
+                                            }
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="@configText" class="form-control css-form-input" id="@loopDados[i].Name"
+                                       name="@loopDados[i].Name" asp-for="@loopDados[i].Name"
+                                       value="@novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null)"
+                                       readonly />
+                                    }
+                                }
+                                else  // leitura e gravacao
+                                {
+                                    @if (loopDados[i].PropertyType.IsEnum || isSelBotoao)
+                                    {
+                                        <div class="row col-sm-12 mx-0 px-0 ">
+                                            <div class="col-sm-8 mx-0 px-0">
+                                                <input type="@configText" class="form-control css-form-input" id="input-@loopDados[i].Name"
+                                                   name="@loopDados[i].Name" asp-for="@loopDados[i].Name"
+                                                   value="@novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null)" />
+                                            </div>
+                                            @{
+
+                                                @if (loopDados[i].PropertyType.IsEnum)
+                                                {
+                                                    var enumNames = Enum.GetNames(loopDados[i].PropertyType);
+                                                    var enumValues = Enum.GetValues(loopDados[i].PropertyType);
+                                                    var SelectedValue = @novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null);
+                                                    <select asp-for="@loopDados[i].Name" class="col-sm-4 mx-0 px-1 css-form-select" data-field-id="@loopDados[i].Name">
+                                                        @for (var a = 0; a < enumNames.Length; a++)
+                                                        {
+                                                            var optionValue = @enumValues.GetValue(a);
+                                                            var isSelected = (optionValue.Equals(@SelectedValue) ? "selected" : "");
+                                                            <option value="@optionValue" class="css-form-option" selected="@isSelected">@enumNames[a]</option>
+
+                                                        }
+                                                    </select>
+                                                }else{
+@*                                                    var texte = "sel" + @loopDados[i].Name;
+                                                    //var enumNames = @texte;
+                                                    var enumNames = "testeteste";
+                                                    //var enumValues = Enum.GetValues(loopDados[i].PropertyType);
+                                                    //var SelectedValue = @novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null);
+                                                    <select asp-for="@loopDados[i].Name" class="col-sm-4 mx-0 px-1 css-form-select" data-field-id="@loopDados[i].Name">
+                                                        @for (var a = 0; a < enumNames.Length; a++)
+                                                        {
+                                                            //var optionValue = @enumValues.GetValue(a);
+                                                            //var isSelected = (optionValue.Equals(@SelectedValue) ? "selected" : "");
+                                                            var optionValue = texte[a];
+                                                            var isSelected = "";
+                                                            <option value="@optionValue" class="css-form-option" selected="@isSelected">@enumNames[a]</option>
+                                                        }
+                                                    </select>
+*@
+@*                                                    <button id="modal-@loopDados[i].Name" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-@loopDados[i].Name">
+                                                        Abrir Formulário Modal - @loopDados[i].Name
+                                                    </button>
+
+                                                    <button id="@loopDados[i].Name" type="button" class="btn btn-primary" onclick="abrirFormulario('@loopDados[i].Name')">
+                                                        Abrir Formulário - @loopDados[i].Name
+                                                    </button>
+*@
+                                                    <div class="col-sm-4 mx-0 px-1 css-form-select">
+                                                        <button id="@loopDados[i].Name" type="button" class="btn btn-primary" onclick="abrirFormulario('@loopDados[i].Name')">
+                                                            @loopDados[i].Name
+                                                        </button>
+                                                   </div>
+
+
+                                                }
+
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="@configText" class="form-control css-form-input" id="@loopDados[i].Name"
+                                        name="@loopDados[i].Name" asp-for="@loopDados[i].Name"
+                                        value="@novoCadastro.GetType().GetProperty(@loopDados[i].Name).GetValue(@novoCadastro, null)" />
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                    i++;
+                }
+            }
+        </div>
+        <!-- sempre subtrai 1 para voltar elemento e assim não pular itens do formulairo-->
+        i--;
+    }
+
+</fieldset>
+
+
+<div class="form-group row px-2 py-2">
+    <div class="col-sm-8">
+        <button type="submit" id="BtCadFormulario" name="BtCadFormulario" value="VOLTAR" class="btn btn-primary ">@voltaBTN</button>
+        @if (! acaoBTN.Equals("VIEW"))
+        {
+            <button type="submit" id="BtCadFormulario" name="BtCadFormulario" value="@acaoBTN" class="btn btn-success "> @descricaoBTN </button>
+        }
+
+    </div>
+</div>
+
+
+
+@************************************************
+script para validar posicoes telas e demais campos mascaras etc
+
+*************************************************@
+
+<script >
+
+
+    function abrirFormulario(nomeDoFormulario) {
+        // Aqui você pode chamar funções diferentes com base no nome do formulário
+        switch (nomeDoFormulario) {
+            case 'Formulario1':
+                abrirFormulario1();
+                break;
+            case 'Formulario2':
+                abrirFormulario2();
+                break;
+            // Adicione mais casos conforme necessário
+            default:
+                alert("Rotina em construção favor infomar um " + nomeDoFormulario +" existente");
+               
+        }
+    }
+
+    function abrirFormulario1() {
+        // Lógica específica para abrir o Formulário 1
+        alert("formulairo 1");
+        console.log('Abrindo Formulário 1');
+        // Adicione mais lógica conforme necessário
+    }
+
+    function abrirFormulario2() {
+        // Lógica específica para abrir o Formulário 2
+        alert("formulaior 2")
+        console.log('Abrindo Formulário 2');
+        // Adicione mais lógica conforme necessário
+    }
+
+
+    function exibirAlerta() {
+        alert('Este é um alerta acionado pelo botão.');
+    }
+
+ 
+    var selects = document.querySelectorAll('select[data-field-id]');
+    selects.forEach(function (select) {
+        var fieldId = select.getAttribute('data-field-id');
+        var input = document.getElementById('input-' + fieldId);
+
+        select.addEventListener("change", function () {
+            input.value = select.value;
+        });
+
+        input.addEventListener("change", function () {
+            var selectedValue = input.value;
+
+            if (selectedValue) {
+                var options = select.querySelectorAll('option');
+                for (var j = 0; j < options.length; j++) {
+                    if (options[j].value === selectedValue) {
+                        options[j].selected = true;
+                    } else {
+                        options[j].selected = false;
+                    }
+                }
+            }
+        });
+
+        // Execute a verificação inicial ao carregar a página
+        var selectedValue = input.value;
+        if (selectedValue) {
+            var options = select.querySelectorAll('option');
+            for (var j = 0; j < options.length; j++) {
+                if (options[j].value === selectedValue) {
+                    select.value = selectedValue;
+                    break;
+                }
+            }
+        }
+    });
+
+</script>
+

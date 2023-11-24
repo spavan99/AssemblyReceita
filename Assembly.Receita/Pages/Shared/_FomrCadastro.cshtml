@@ -1,0 +1,152 @@
+﻿@*
+    //formula montagem do cadastro
+    // item1 - nome primeiro botao  item2 nome segundo botao
+    // item3 - rota para primeiro botao  item 4 rota para segundo botao
+  
+    
+       string tamColuna = "col-sm-12";
+    if(  Model.nrColunasCad == 2)
+    {
+        tamColuna = "col-sm-6";
+    }else if( Model.nrColunasCad == 3)
+    {
+        tamColuna = "col-sm-4";
+    }
+
+*@
+
+
+@model dynamic
+
+@{
+    var loopDadosModel = Model.DadosViewModel.GetPropertiesToDisplay();
+    var novoCadastro = Model.novoCadastro;
+
+    string tamColuna = "col-sm-6";
+    int coluna = 2;
+
+}
+@*    // diversos erros fazer depois
+<fieldset cadastro>
+
+    @for (int i = 0; i < loopDadosModel.Length; i++)
+    {
+        <div class="form-group row mx-1 px-1">
+            @for (int n = 0; n < coluna; n++)
+            {
+                @if (i < loopDadosModel.Length)
+                {
+                    var displayName = Model.DadosViewModel.GetDisplayAttribute(loopDadosModel[i]);
+                    var isRequired = Model.DadosViewModel.GetRequiredAttribute(loopDadosModel[i]);
+                    var isReadOnly = Model.DadosViewModel.GetReadOnlyAttribute(loopDadosModel[i]);
+                    var isHtmlRead = Model.DadosViewModel.GetHtmlReadOnAttribute(loopDadosModel[i]);
+                    var isHidden = Model.DadosViewModel.GetHiddenInputAttribute(loopDadosModel[i]);
+
+                    @if (isHidden)
+                    {
+                        <!-- campo hidem-->
+                        <input asp-for="@loopDadosModel[i].Name" style="display: none;" type="text" />
+
+                    }
+                    else
+                    {
+                        <div class="@tamColuna mx-0 px-1">
+
+                            @if (!isHidden)  // nao hidden
+                            {
+                                <label for="@loopDadosModel[i].Name" class="for-label css-form-label"
+                                    asp-for="@loopDadosModel[i].Name">
+                                    @displayName
+                                    @if (isRequired)
+                                    {
+                                        <span class="text-danger">*</span>
+                                    }
+                                </label>
+
+                                if (isReadOnly || isHtmlRead)  // somente leitura
+                                {
+                                    @if (loopDadosModel[i].PropertyType.IsEnum)
+                                    {
+                                        <div class="row col-sm-12 mx-0 px-0 ">
+                                            <div class="col-sm-8 mx-0 px-0">
+                                                <input type="text" class="form-control css-form-input" id="input-@loopDadosModel[i].Name"
+                           name="@loopDadosModel[i].Name" asp-for="@loopDadosModel[i].Name"
+                           value="@Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null)"
+                           readonly />
+
+                                            </div>
+
+                                            @{
+                                                var enumNames = Enum.GetNames(loopDadosModel[i].PropertyType);
+                                                var enumValues = Enum.GetValues(loopDadosModel[i].PropertyType);
+                                                var SelectedValue = @Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null);
+
+                                                <select asp-for="@loopDadosModel[i].Name" class="col-sm-4 mx-0 px-1" data-field-id="@loopDadosModel[i].Name">
+                                                    @for (var a = 0; a < enumNames.Length; a++)
+                                                    {
+                                                        var optionValue = @enumValues.GetValue(a);
+                                                        var isSelected = (optionValue.Equals(@SelectedValue) ? "selected" : "");
+                                                        <option value="@optionValue" selected="@isSelected" disabled>@enumNames[a]</option>
+                                                    }
+                                                </select>
+                                            }
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="form-control css-form-input" id="@loopDadosModel[i].Name"
+                   name="@loopDadosModel[i].Name" asp-for="@loopDadosModel[i].Name"
+                   value="@Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null)"
+                   readonly />
+                                    }
+                                }
+                                else  // leitura e gravacao
+                                {
+                                    @if (loopDadosModel[i].PropertyType.IsEnum)
+                                    {
+                                        <div class="row col-sm-12 mx-0 px-0 ">
+                                            <div class="col-sm-8 mx-0 px-0">
+                                                <input type="text" class="form-control css-form-input" id="input-@loopDadosModel[i].Name"
+                           name="@loopDadosModel[i].Name" asp-for="@loopDadosModel[i].Name"
+                           value="@Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null)" />
+                                            </div>
+                                            @{
+                                                var enumNames = Enum.GetNames(loopDadosModel[i].PropertyType);
+                                                var enumValues = Enum.GetValues(loopDadosModel[i].PropertyType);
+                                                var SelectedValue = @Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null);
+                                                <select asp-for="@loopDadosModel[i].Name" class="col-sm-4 mx-0 px-1" data-field-id="@loopDadosModel[i].Name">
+                                                    @for (var a = 0; a < enumNames.Length; a++)
+                                                    {
+                                                        var optionValue = @enumValues.GetValue(a);
+                                                        var isSelected = (optionValue.Equals(@SelectedValue) ? "selected" : "");
+                                                        <option value="@optionValue" selected="@isSelected">@enumNames[a]</option>
+
+                                                    }
+                                                </select>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="form-control css-form-input" id="@loopDadosModel[i].Name"
+                   name="@loopDadosModel[i].Name" asp-for="@loopDadosModel[i].Name"
+                   value="@Model.novoCadastro.GetType().GetProperty(@loopDadosModel[i].Name).GetValue(Model.novoCadastro, null)" />
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                    i++;
+                }
+            }
+
+        </div>
+        <!-- sempre subtrai 1 para voltar elemento e assim não pular itens do formulairo-->
+        i--;
+    }
+
+
+</fieldset>
+
+*@

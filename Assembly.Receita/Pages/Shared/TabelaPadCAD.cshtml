@@ -1,0 +1,112 @@
+﻿@using Assembly.Database;
+@using Assembly.Service;
+
+@{
+    var dadosFiltro = ViewData["dadosFiltro"] as List<dynamic> ?? new List<dynamic>();
+    var rotaCRUD = ViewData["rotaCRUD"]?.ToString() ?? "";
+    var btn1Name = ViewData["btn1Name"]?.ToString() ?? "Novo";
+    var listCamposTAB = ViewData["listCamposTAB"] as List<string> ?? new List<string>();
+    var descricaoCamposTAB = ViewData["descricaoCamposTAB"] as List<string> ?? new List<string>();
+    var NumItensPorPag = (int)(ViewData["NumItensPorPag"] ?? 1000);
+    var PaginaAtual = (int)(ViewData["PaginaAtual"] ?? 1);
+
+    // inclusao de itens primeiro
+    var btnAdicName = ViewData["btnAdicName"]?.ToString() ?? " Itens";
+    var rotaItens = ViewData["rotaItens"]?.ToString() ?? "";
+    var temitemmais = (int)(ViewData["TemItensMais"] ?? 0);
+
+    // inclusao de itens segundo
+    var btnAdicName2 = ViewData["btnAdicName2"]?.ToString() ?? " Itens";
+    var rotaItens2 = ViewData["rotaItens2"]?.ToString() ?? "";
+    var temitemmais2 = (int)(ViewData["TemItensMais2"] ?? 0);
+
+    // botao nao achar itens vazio
+    var btnAdicNameFinal = ViewData["btnAdicNameFinal"]?.ToString() ?? "Novo";
+    var tembotaofinal = (int)(ViewData["TemBotaoFinal"] ?? 0);
+}
+
+@if (@dadosFiltro.Count > 0)
+{
+    <table class="table table-striped table-hover" id="minhaTabela">
+        <thead>  <!--cabeçalhos-->
+            <tr>
+                <th scope="col">
+                    <a href="@rotaCRUD?IdOrigem=0&acaoOrigem=INSERT" action="@rotaCRUD" class="btn btn-success CADbtnsm">@btn1Name </a>
+                </th>
+                @for( int i =0; i < descricaoCamposTAB.Count; i++)
+                {
+                    <th scope="col"> @descricaoCamposTAB[i]</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>  <!-- itens da tabela-->
+           <!-- futuro ver a paginaca-->
+           @for (int i = (PaginaAtual - 1) * NumItensPorPag; i < (NumItensPorPag * PaginaAtual < @dadosFiltro.Count
+           ? NumItensPorPag * PaginaAtual : @dadosFiltro.Count); i++)
+            {
+                <tr>
+                    <td id="a.idCliente" class="actions">
+                        <!-- passa depois o ID-->
+                        <a href="@rotaCRUD?IdOrigem=@dadosFiltro[i].Id&acaoOrigem=UPDATE" action="@rotaCRUD">
+                            <img src="/icones/edit2.png" width="25" height="25">
+                        </a>
+                        <a href="@rotaCRUD?IdOrigem=@dadosFiltro[i].Id&acaoOrigem=VIEW" action="@rotaCRUD">
+                            <img src="/icones/ver.png" width="25" height="25">
+                        </a>
+                        <a href="@rotaCRUD?IdOrigem=@dadosFiltro[i].Id&acaoOrigem=DELETE" action="@rotaCRUD">
+                            <img src="/icones/delete.png" width="25" height="25">
+                        </a>
+
+                        @if( temitemmais == 1)
+                        {
+                           <a href="@rotaItens?IdOrigem=@dadosFiltro[i].Id&acaoOrigem=SELECT" action="@rotaItens" 
+                             class="btn btn-danger CADbtnsm">@btnAdicName </a>
+                        }
+
+                        @if (temitemmais2 == 1)
+                        {
+                            <a href="@rotaItens2?IdOrigem=@dadosFiltro[i].Id&acaoOrigem=FOTO" action="@rotaItens2"
+                            class="btn btn-warning CADbtnsm">@btnAdicName2 </a>
+                        }
+
+                    </td>
+
+                    <!--montar a coorre dos campos -->
+                    @for( int n =0; n < listCamposTAB.Count; n++)
+                    {
+                        //var valorDoCampo = item.GetType().GetProperty(campo)?.GetValue(item);
+                        var valorDoCampo = dadosFiltro[i].GetType().GetProperty(listCamposTAB[n])?.GetValue(dadosFiltro[i]);
+                        <td scope="col"> @valorDoCampo</td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}else{
+
+    if( tembotaofinal == 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            Pesquisa nao encontrada, Limpe a pesquisa e tente outra!!!!
+        </div>
+    }
+    else
+    {   // melhorar somente inclusit novo
+
+        <div class="alert alert-danger px-5 py-5" role="alert">
+            <div class="row col-sm-12 px-2 py-2">
+                <div class="col-sm-8 px-2 py-2">
+                    <p> Itens nao contrado cadastre novo item!!!!  </p>
+
+                </div>
+            </div>
+            <div class="col-sm-4 px-2 py-2">
+                 <a href="@rotaCRUD?IdOrigem=0&acaoOrigem=INSERT" action="@rotaCRUD" class="btn btn-success CADbtnsm">@btn1Name </a>
+            </div>
+        </div>
+    }
+}
+

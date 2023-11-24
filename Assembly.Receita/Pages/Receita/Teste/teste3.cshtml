@@ -1,0 +1,99 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Teste.teste3Model
+@using System.ComponentModel.DataAnnotations
+@{
+    var tipoDados = Model.dados.GetType();
+    var propriedades = tipoDados.GetProperties();
+
+   // var x1 = Model.dados.GetProperty("Nome");
+
+   // var atrib1 = x1.GetCustomAttribute<DisplayAttribute>();
+
+
+   // var metadata = ModelMetadata.FromLambdaExpression(x => x.dados, ViewData);
+   // var properties = metadata.Properties;
+
+}
+
+<form method="post">
+    <div>
+        @foreach (var propriedade in propriedades)
+        {
+
+            string displayName = tipoDados.Name.ToString();
+
+            bool isRequired = true;
+            bool isReadOnly = false;
+            bool isHidden = false;
+
+            Object[] myAttributes = propriedade.GetCustomAttributes(true);
+            //var teste = propriedade.GetCustomAttributes(;
+
+            for( int i = 1; i < myAttributes.Length; i++)
+            {
+
+                var teste = myAttributes[i];
+                Console.WriteLine(myAttributes[i].GetType());
+
+                if (teste is RequiredAttribute alfa)
+                {
+
+                    Console.WriteLine("temmmmmm  obaaaa");
+                    // ...
+                }
+
+
+            }
+
+
+            <div>
+
+
+
+                @if (!isHidden)
+                {
+                    <label for="@propriedade.Name">@displayName</label>
+                }
+                
+                @if (!isHidden)
+                {
+                    if (isReadOnly)
+                    {
+                        <input type="text" name="@propriedade.Name" value="@propriedade.GetValue(@Model.dados)" readonly />
+                    }
+                    else
+                    {
+                        <input type="text" name="@propriedade.Name" value="@propriedade.GetValue(@Model.dados)" />
+                    }
+
+                    @if (isRequired)
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                }
+
+                @if (isHidden)
+                {
+                    <input type="hidden" name="@propriedade.Name" value="@propriedade.GetValue(@Model.dados)" />
+                }
+
+             
+
+                @if (propriedade.PropertyType.IsEnum)
+                {
+                    @propriedade.Name;
+                    var enumNames = Enum.GetNames(propriedade.PropertyType);
+                    var enumValues = Enum.GetValues(propriedade.PropertyType);
+                    <select name="@propriedade.Name">
+                        @for (var i = 0; i < enumNames.Length; i++)
+                        {
+                            <option value="@enumValues.GetValue(i)">@enumNames[i]</option>
+                        }
+                    </select>
+                }
+            </div>
+        }
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>

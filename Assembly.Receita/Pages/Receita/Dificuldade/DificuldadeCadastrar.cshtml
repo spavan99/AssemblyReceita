@@ -1,0 +1,28 @@
+﻿@page
+@model Assembly.Receita.Pages.Receita.Dificuldade.DificuldadeCadastrarModel
+@{
+    var mensagem = TempData["My9Mensagem"] as string;
+    var erro = TempData["My9Erro"] as string;
+}
+
+<!-- titulos
+<partial name="Receita/Adm/CabecalhoADM" />  -->
+@Html.Raw(Model.CabecalhoTitulo)
+
+<div class="container">
+
+    <form class="mb-2 py-2 form-group Cadastro-Dados-Formn borda-principal" id="formulario-cadastro-geral" method="POST"
+          asp-page-handler="CadastraFormulario" asp-route-TipoFiltro="1">
+
+        @await Html.PartialAsync("Shared/CRUDPadCAD", new {
+        nrColunasCad = Model.nrColunasCad,
+        DadosViewModel = Model.DadosViewModel,
+        acaoBTN = Model.acaoBTN,
+        descricaoBTN = Model.descricaoBTN,
+        voltaBTN = "Volta",
+        novoCadastro = Model.novoCadastro })
+
+    </form>
+
+</div>
+
