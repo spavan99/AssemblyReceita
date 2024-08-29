@@ -23,7 +23,7 @@ builder.Services.AddHttpContextAccessor();
 //*****************************************
 
 //************************************************************* grupo site
-// adciona outro servico classe croscutting todos os serviço la
+// adciona outro servico classe croscutting todos os serviço la   ---   IOC
 builder.Services.AddRepos();
 builder.Services.AddServices();
 //builder.Services.AddRazorPages();
