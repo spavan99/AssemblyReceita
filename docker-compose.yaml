@@ -1,0 +1,17 @@
+
+version: '3.8'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Minhasenha4321#"  # Defina uma senha forte para o usuário 'sa'
+      ACCEPT_EULA: "Y"  # Aceita o Contrato de Licença do SQL Server
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./volume:/var/opt/mssql/data
+  receita-app:
+    build: .
+    ports: 
+      - "8090:80"
