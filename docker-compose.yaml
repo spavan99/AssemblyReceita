@@ -3,6 +3,7 @@ version: '3.8'
 services:
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
     environment:
       SA_PASSWORD: "Minhasenha4321#"  # Defina uma senha forte para o usuário 'sa'
       ACCEPT_EULA: "Y"  # Aceita o Contrato de Licença do SQL Server
