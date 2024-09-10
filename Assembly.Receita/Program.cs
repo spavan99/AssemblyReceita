@@ -91,6 +91,10 @@ builder.Services.AddAuthorization(options =>
     //});
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80); // to listen for incoming http connection on port 80
+});
 
 var app = builder.Build();
 
