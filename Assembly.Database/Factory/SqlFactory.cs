@@ -17,7 +17,7 @@ namespace Assembly.Database
         */
 
 
-        private readonly string _strConexao = "Server=5.161.72.81;Database=assembly_receitas;User Id=sa;Password=Minhasenha4321#;Encrypt=False;TrustServerCertificate=True";
+        private readonly string _strConexao = "Server=10.0.0.3;Database=assembly_receitas;User Id=sa;Password=Minhasenha4321#;Encrypt=False;TrustServerCertificate=True";
 
 
         // contutor pegar string no json
